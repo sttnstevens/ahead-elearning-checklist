@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AHEAD eLearning Branding & Andragogy Checklist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: #f0f4f8; font-family: 'Poppins', sans-serif; padding: 2rem 1rem 4rem; }
+    .wrap { max-width: 700px; margin: 0 auto; }
+    .header { background: #123A61; border-radius: 12px; padding: 1.4rem 1.5rem 1.2rem; margin-bottom: 1.25rem; }
+    .header h1 { font-size: 17px; font-weight: 600; color: #fff; margin-bottom: .4rem; }
+    .header p { font-size: 12px; color: #fff; line-height: 1.6; }
+    .section { margin-bottom: .85rem; border-radius: 10px; overflow: visible; border: .5px solid #c8d8e5; }
+    .sec-head { display: flex; align-items: center; justify-content: space-between; padding: .65rem 1rem; cursor: pointer; background: #009FDC; user-select: none; border-radius: 10px; }
+    .sec-head:hover { background: #0090c8; }
+    .sec-head.open { border-radius: 10px 10px 0 0; }
+    .sec-title { font-size: 13px; font-weight: 600; color: #fff; }
+    .sec-meta { display: flex; align-items: center; }
+    .chev { font-size: 11px; color: #fff; transition: transform .2s; display: inline-block; }
+    .chev.open { transform: rotate(180deg); }
+    .sec-body { background: #fff; padding: .6rem .85rem .85rem; border-radius: 0 0 10px 10px; display: none; }
+    .sec-body.open { display: block; }
+    .item { display: flex; align-items: flex-start; gap: 9px; padding: .45rem .3rem; border-radius: 6px; cursor: pointer; transition: background .1s; }
+    .item:hover { background: #f4f8fb; }
+    .box { width: 17px; height: 17px; min-width: 17px; border-radius: 4px; border: 1.5px solid #b0c4d4; background: #fff; display: flex; align-items: center; justify-content: center; margin-top: 2px; transition: all .15s; }
+    .item.checked .box { background: #00B388; border-color: #00B388; }
+    .tick { display: none; width: 9px; height: 9px; }
+    .item.checked .tick { display: block; }
+    .item-text { font-size: 12.5px; color: #123A61; line-height: 1.55; }
+    .item-text strong { font-weight: 600; color: #1C4CBF; }
+    .item.checked .item-text { color: #8fa8b8; text-decoration: line-through; }
+    .item.checked .item-text strong { color: #8fa8b8; }
+    .item.checked .swatches-wrap { opacity: .4; }
+    .sub-bullets { margin: .5rem 0 .25rem 8px; display: flex; flex-direction: column; gap: .45rem; }
+    .sub-bullet { font-size: 12px; color: #123A61; line-height: 1.5; display: flex; align-items: flex-start; gap: 6px; }
+    .sub-dot { color: #1C4CBF; font-size: 14px; line-height: 1.3; flex-shrink: 0; }
+    .sub-bullet-content { display: flex; flex-direction: column; gap: .25rem; }
+    .sub-label { font-weight: 600; color: #1C4CBF; }
+    .swatches { display: flex; flex-wrap: wrap; gap: 5px; margin-top: .25rem; }
+    .swatch-wrap { position: relative; display: inline-block; }
+    .swatch { width: 22px; height: 22px; border-radius: 4px; border: .5px solid rgba(0,0,0,.1); flex-shrink: 0; cursor: default; }
+    .swatch-tip { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); background: #102033; color: #fff; font-size: 10px; font-family: 'Poppins', sans-serif; white-space: nowrap; padding: 3px 7px; border-radius: 4px; pointer-events: none; opacity: 0; transition: opacity .15s; z-index: 10; }
+    .swatch-tip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border: 4px solid transparent; border-top-color: #102033; }
+    .swatch-wrap:hover .swatch-tip { opacity: 1; }
+    .item.checked .sub-bullet { color: #8fa8b8; }
+    .item.checked .sub-label { color: #8fa8b8; }
+    .item.checked .sub-dot { color: #8fa8b8; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <h1>AHEAD eLearning Branding &amp; Andragogy Checklist</h1>
+      <p>Use this checklist when building or reviewing an eLearning. When in doubt, reach out to an AHEAD LXD for a quick review before requesting that the learning solution be added to internal AHEAD learning platforms.</p>
+    </div>
+    <div id="sections"></div>
+  </div>
+
+  <script>
+    const primaryColors = ['#009FDC','#1C4CBF','#00B388','#123A61'];
+    const secondaryColors = ['#9DE1F7','#99E2CC','#67C3E9','#6ECEB2','#006666','#102033','#5663C0','#1A4344','#EB6056','#EC8058','#FCCA49','#333399','#ECA154','#EBF0F2'];
+
+    function swatchHtml(colors){
+      return '<div class="swatches">' + colors.map(c =>
+        '<div class="swatch-wrap"><div class="swatch" style="background:' + c + '"></div><div class="swatch-tip">' + c + '</div></div>'
+      ).join('') + '</div>';
+    }
+
+    const sections = [
+      {key:'logo', title:'Logo', items:[
+        {label:'Placement', text:'Logo placement follows the official AHEAD slide deck templates. For eLearnings, the logo appears on the cover and key title or entry/exit screens, and is not added to busy content screens just for the sake of repetition.'},
+        {label:'Version & contrast', text:'Primary logo on light backgrounds, reversed white logo on dark backgrounds, always with strong contrast.'},
+        {label:'Integrity', text:'Logo is not recolored, stretched, rotated, rearranged, or placed on top of another logo or very busy image, and has clear space roughly equal to the height of the \u201cE\u201d.'}
+      ]},
+      {key:'color', title:'Color', items:[
+        {label:'Brand colors only', text:'All colors are from the AHEAD palette.', subbullets:[
+          {label:'Primary', swatches: primaryColors},
+          {label:'Secondary & accents', swatches: secondaryColors}
+        ]},
+        {label:'Limited palette', text:'Each screen uses 1 background color (typically primary or white), 1 primary color, and 1 secondary/accent color.'},
+        {label:'Contrast', text:'All text is clearly readable against its background (no low-contrast combinations).'}
+      ]},
+      {key:'type', title:'Typography', items:[
+        {label:'Font', text:'Poppins is used throughout. If Poppins is not available, Tenorite is the fallback; Verdana only as a last resort.'},
+        {label:'Hierarchy & consistency', text:'Titles, headings, and body text are clearly distinguished by size and weight, with Poppins used consistently throughout.'}
+      ]},
+      {key:'brand', title:'Brand Elements & Layout', items:[
+        {label:'Shapes', text:'Brand shapes (circles and pills) are used only at 180\u00b0 or 69\u00b0, not at other angles.'},
+        {label:'Simplicity', text:'No more than three distinct brand element treatments appear on any one screen.'},
+        {label:'Layout', text:'Clean and minimalist, with clear visual groupings and ample white space.'}
+      ]},
+      {key:'photo', title:'Photography & AI Imagery', items:[
+        {label:'Photo style', text:'Photos look candid and modern, with real people or realistic environments (not stiff or obviously stock).'},
+        {label:'Filters & text', text:'No heavy filters that fight the brand look, and any text over images remains very easy to read.'},
+        {label:'AI use', text:'AI-generated images are used only as explicit examples of AI output and are clearly identified as such in the learning content.'}
+      ]},
+      {key:'msg', title:'Course Messaging & Overview', items:[
+        {label:'Course overview', text:'The opening screen or introduction clearly states what learners will do and learn in this course (e.g., \u201cIn this course, you will\u2026\u201d).'},
+        {label:'Goals & objectives', text:'Objectives are specific, action-oriented, realistic, and describe what learners will be able to do by the end.'},
+        {label:'Connection to AHEAD', text:'The overview briefly anchors the course in AHEAD\'s context (clients, work, processes) without turning into marketing copy.'}
+      ]},
+      {key:'struct', title:'Structure, Sequencing, & Navigation', items:[
+        {label:'Andragogical flow', text:'The course follows basic andragogy principles: a clear why, short chunks, core concepts first, then guided examples, then practice or reflection.'},
+        {label:'Screen load', text:'Each screen carries a reasonable amount of content, not a long reading assignment.'},
+        {label:'Navigation', text:'Next, Back, and any menus are clear and consistent across the course.'}
+      ]},
+      {key:'andro', title:'Andragogy & Learning Experience', items:[
+        {label:'Relevance', text:'Content is clearly tied to real AHEAD work, processes, tools, or decisions that matter to adult learners.'},
+        {label:'Why, then what, then how', text:'The course makes the purpose clear, introduces key ideas, and then moves into examples or application.'},
+        {label:'Respect for time', text:'Information is chunked and focused on what learners need to do, not just what they need to know.'},
+        {label:'Clarity of next step', text:'On each screen, it is obvious what learners should do next.'}
+      ]}
+    ];
+
+    const checked = {};
+
+    function render(){
+      const container = document.getElementById('sections');
+      container.innerHTML = '';
+      sections.forEach(sec => {
+        const div = document.createElement('div');
+        div.className = 'section';
+        let itemsHtml = sec.items.map((item, i) => {
+          const id = sec.key + '-' + i;
+          const ck = checked[id] ? 'checked' : '';
+          let subHtml = '';
+          if(item.subbullets){
+            subHtml = '<div class="sub-bullets">' + item.subbullets.map(sb =>
+              '<div class="sub-bullet"><span class="sub-dot">&#8226;</span><div class="sub-bullet-content"><span class="sub-label">' + sb.label + '</span>' +
+              (sb.swatches ? '<div class="swatches-wrap">' + swatchHtml(sb.swatches) + '</div>' : '') +
+              '</div></div>'
+            ).join('') + '</div>';
+          }
+          return '<div class="item ' + ck + '" id="ci-' + id + '" onclick="toggle(\'' + sec.key + '\',' + i + ')">' +
+            '<div class="box"><svg class="tick" viewBox="0 0 9 9" fill="none"><polyline points="1,4.5 3.5,7 8,1.5" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg></div>' +
+            '<div class="item-text"><strong>' + item.label + ':</strong> ' + item.text + subHtml + '</div>' +
+            '</div>';
+        }).join('');
+        div.innerHTML =
+          '<div class="sec-head" onclick="toggleSec(\'body-' + sec.key + '\',this)">' +
+            '<div class="sec-title">' + sec.title + '</div>' +
+            '<div class="sec-meta"><span class="chev">&#9660;</span></div>' +
+          '</div>' +
+          '<div class="sec-body" id="body-' + sec.key + '">' + itemsHtml + '</div>';
+        container.appendChild(div);
+      });
+    }
+
+    function toggle(key, i){
+      const id = key + '-' + i;
+      checked[id] = !checked[id];
+      const el = document.getElementById('ci-' + id);
+      if(checked[id]) el.classList.add('checked'); else el.classList.remove('checked');
+    }
+
+    function toggleSec(bodyId, header){
+      const body = document.getElementById(bodyId);
+      const ch = header.querySelector('.chev');
+      if(body.classList.contains('open')){
+        body.classList.remove('open');
+        ch.classList.remove('open');
+        header.classList.remove('open');
+      } else {
+        body.classList.add('open');
+        ch.classList.add('open');
+        header.classList.add('open');
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>
